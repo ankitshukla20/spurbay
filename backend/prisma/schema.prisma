@@ -9,26 +9,43 @@ datasource db {
 }
 
 model Admin {
-  id       String @id @default(cuid())
-  email    String
-  password String
+  id                 String    @id @default(cuid())
+  name               String
+  email              String
+  password           String
+  resetPwToken       String?
+  resetPwTokenExpiry DateTime?
 }
 
 model User {
-  id       String   @id @default(cuid())
-  email    String   @unique
-  password String
-  reviews  Review[]
+  id                 String    @id @default(cuid())
+  name               String
+  email              String    @unique
+  password           String
+  reviews            Review[]
+  resetPwToken       String?
+  resetPwTokenExpiry DateTime?
+  createdAt          DateTime  @default(now())
+}
+
+model Collection {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  price       Int
-  description String
-  images      Image[]
-  stock       Int      @default(0)
-  reviews     Review[]
+  id           String      @id @default(cuid())
+  name         String
+  price        Int
+  description  String
+  images       Image[]
+  stock        Int         @default(0)
+  reviews      Review[]
+  Collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Image {

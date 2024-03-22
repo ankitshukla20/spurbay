@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
     let products: Product[];
 
     const pageNumber = parseInt(req.query.page as string) || 1;
-    const pageSize = parseInt(req.query.size as string) || 8;
+    const pageSize = parseInt(req.query.size as string) || 10;
 
     if (req.query.search && typeof req.query.search === "string") {
       const searchText = req.query.search;

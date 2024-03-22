@@ -1,9 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import createHttpError, { isHttpError } from "http-errors";
-import userRouter from "./routes/user";
-import adminRouter from "./routes/admin";
 import productRouter from "./routes/products";
+import adminRouter from "./routes/admin";
+import userAuthRouter from "./routes/userAuth";
+import userRouter from "./routes/user";
 
 dotenv.config();
 
@@ -20,9 +21,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello from the Server of Spurbayfashions" });
 });
 
+app.use("/api/products", productRouter);
+app.use("/api/auth/user", userAuthRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/products", productRouter);
 
 /* ---- Error handling middlewares ---- */
 
