@@ -8,3 +8,10 @@ export const signupUserSchema = z
     password: z.string().min(5),
   })
   .strict();
+
+export const signinUserSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(5),
+  })
+  .strict();

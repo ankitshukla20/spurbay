@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import createHttpError, { isHttpError } from "http-errors";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import productRouter from "./routes/products";
 import adminRouter from "./routes/admin";
 import userAuthRouter from "./routes/userAuth";
@@ -13,6 +15,13 @@ const port = process.env.PORT || 5000;
 
 /* ---- Middlewares ---- */
 
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
+app.use(cookieParser());
 app.use(express.json());
 
 /* ---- Route handlers ---- */
