@@ -30,11 +30,11 @@ router.post("/signup", async (req, res, next) => {
     }
 
     // Signup
-    const { name, email, password } = userSignupData;
+    const { firstname, lastname, email, password } = userSignupData;
     const hashedPassword = await generateHashedPassword(password);
 
     const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { firstname, lastname, email, password: hashedPassword },
     });
 
     const token = generateUserToken(user.id);
