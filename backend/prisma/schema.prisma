@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -7,7 +8,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Admin {
+  id       String @id @default(cuid())
+  email    String
+  password String
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  username String
+  id       String   @id @default(cuid())
+  email    String   @unique
+  password String
+  reviews  Review[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  price       Int
+  description String
+  images      Image[]
+  stock       Int      @default(0)
+  reviews     Review[]
+}
+
+model Image {
+  id        String  @id @default(cuid())
+  public_id String
+  url       String
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Review {
+  id        String  @id @default(cuid())
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
+  rating    Int
+  comment   String?
 }
