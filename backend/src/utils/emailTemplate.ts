@@ -428,7 +428,7 @@ export const emailTemplate = (
   </head>
   <body>
     <span class="preheader"
-      >Use this link to reset your password. The link is only valid for 60
+      >Use this link to reset your password. The link is only valid for 30
       minutes.</span
     >
     <table
@@ -481,7 +481,7 @@ export const emailTemplate = (
                           You recently requested to reset your password for your
                           account. Use the button below to reset it.
                           <strong
-                            >This password reset is only valid for the next 60
+                            >This password reset is only valid for the next 30
                             minutes.</strong
                           >
                         </p>

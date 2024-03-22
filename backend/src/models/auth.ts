@@ -19,3 +19,10 @@ export const signinSchema = z
 export const forgotPasswordSchema = z
   .object({ email: z.string().email() })
   .strict();
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(5),
+    confirmPassword: z.string().min(5),
+  })
+  .strict();

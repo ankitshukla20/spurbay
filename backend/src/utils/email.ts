@@ -11,8 +11,8 @@ export const sendEmail = async ({ to, subject, message }: SendEmailProps) => {
     host: "smtp-relay.brevo.com",
     port: 587,
     auth: {
-      user: "ankit2099shukla@gmail.com",
-      pass: "fdr7vBwGWtPX5HRk",
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
   });
 

@@ -13,3 +13,8 @@ export interface UserSigninBody {
 export interface UserForgotPasswordBody {
   email: string;
 }
+
+export interface UserResetPasswordBody {
+  password: string;
+  confirmPassword: string;
+}

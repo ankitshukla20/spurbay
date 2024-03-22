@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
 export const generateHashedPassword = async (password: string) => {
@@ -22,9 +23,7 @@ export const generateToken = (id: string) => {
   return token;
 };
 
-export const generateResetToken = (id: string) => {
-  const resetToken = jwt.sign({ userId: id }, process.env.JWT_SECRET!, {
-    expiresIn: "1h",
-  });
+export const generateResetToken = () => {
+  const resetToken = crypto.randomBytes(20).toString("hex");
   return resetToken;
 };
