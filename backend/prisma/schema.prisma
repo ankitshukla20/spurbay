@@ -12,7 +12,7 @@ model Admin {
   id                 String    @id @default(cuid())
   firstname          String
   lastname           String
-  email              String
+  email              String    @unique
   password           String
   resetPwToken       String?
   resetPwTokenExpiry DateTime?

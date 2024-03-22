@@ -1,13 +1,20 @@
 import { Router } from "express";
-import { signinUserSchema, signupUserSchema } from "../models/user";
+import {
+  forgotPasswordSchema,
+  signinSchema,
+  signupSchema,
+} from "../models/auth";
 import createHttpError from "http-errors";
 import { prisma } from "../utils/client";
-import { User, UserSignupData } from "../entities/User";
+import { User, UserForgotPasswordBody, UserSigninBody } from "../entities/User";
 import {
   comparePasswords,
   generateHashedPassword,
-  generateUserToken,
+  generateResetToken,
+  generateToken,
 } from "../utils/authMethods";
+import { emailTemplate } from "../utils/emailTemplate";
+import { sendEmail } from "../utils/email";
 
 const router = Router();
 
@@ -17,7 +24,7 @@ router.post("/signup", async (req, res, next) => {
   try {
     // Checks
     const userSignupData = req.body as User;
-    const validation = signupUserSchema.safeParse(userSignupData);
+    const validation = signupSchema.safeParse(userSignupData);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signup Input");
     }
@@ -38,7 +45,7 @@ router.post("/signup", async (req, res, next) => {
       data: { firstname, lastname, email, password: hashedPassword },
     });
 
-    const token = generateUserToken(user.id);
+    const token = generateToken(user.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signup Successful" });
@@ -52,8 +59,8 @@ router.post("/signup", async (req, res, next) => {
 router.post("/signin", async (req, res, next) => {
   try {
     // Checks
-    const userSigninData = req.body as UserSignupData;
-    const validation = signinUserSchema.safeParse(userSigninData);
+    const userSigninData = req.body as UserSigninBody;
+    const validation = signinSchema.safeParse(userSigninData);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signin Inputs");
     }
@@ -74,7 +81,7 @@ router.post("/signin", async (req, res, next) => {
     }
 
     // Login
-    const token = generateUserToken(user.id);
+    const token = generateToken(user.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signin Successful" });
@@ -91,6 +98,59 @@ router.post("/logout", async (req, res, next) => {
 
     res.json({ message: "Logged Out" });
   } catch (err) {
+    next(err);
+  }
+});
+
+/* ---- Send Mail To Reset Password  ---- */
+
+router.post("/password/forgot", async (req, res, next) => {
+  try {
+    // Checks
+    const { email } = req.body as UserForgotPasswordBody;
+    const validation = forgotPasswordSchema.safeParse({ email });
+    if (!validation.success) {
+      throw createHttpError(400, "Invalid Forgot Password Inputs");
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) throw createHttpError(404, "User Not Found");
+
+    // Generate reset token
+    const resetToken = generateResetToken(user.id);
+
+    // Save reset token and expiry in the database
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPwToken: resetToken,
+        resetPwTokenExpiry: new Date(Date.now() + 1000 * 60 * 60), // 1 hour from now
+      },
+    });
+
+    // Send mail
+    const resetURL = `http://localhost:3000/api/v1/password/reset/${resetToken}`;
+    const username = updatedUser.firstname;
+
+    const message = emailTemplate(username, resetURL);
+
+    await sendEmail({
+      to: updatedUser.email,
+      subject: "Spurbay Password Recovery",
+      message,
+    });
+
+    res.json({ message: `Email sent to ${updatedUser.email}`, updatedUser });
+  } catch (err) {
+    await prisma.user.update({
+      where: { email: req.body.email as string },
+      data: {
+        resetPwToken: null,
+        resetPwTokenExpiry: null,
+      },
+    });
+
     next(err);
   }
 });

@@ -14,10 +14,17 @@ export const comparePasswords = async (
   return check;
 };
 
-export const generateUserToken = (id: string) => {
-  const payload = { userId: id };
-  const token = jwt.sign(payload, process.env.USER_JWT_SECRET!, {
+export const generateToken = (id: string) => {
+  const payload = { id };
+  const token = jwt.sign(payload, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
   return token;
+};
+
+export const generateResetToken = (id: string) => {
+  const resetToken = jwt.sign({ userId: id }, process.env.JWT_SECRET!, {
+    expiresIn: "1h",
+  });
+  return resetToken;
 };

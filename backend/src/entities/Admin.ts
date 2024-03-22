@@ -1,15 +1,11 @@
-export interface User {
+export interface Admin {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
 }
 
-export interface UserSigninBody {
+export interface AdminSigninBody {
   email: string;
   password: string;
-}
-
-export interface UserForgotPasswordBody {
-  email: string;
 }
