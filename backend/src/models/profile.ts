@@ -1,12 +1,13 @@
 import { z } from "zod";
 
-export const updateUserSchema = z
+export const updateSchema = z
   .object({
     firstname: z.string().optional(),
     lastname: z.string().optional(),
     email: z.string().email().optional(),
   })
   .strict();
+export type UpdateBody = z.infer<typeof updateSchema>;
 
 export const updatePasswordSchema = z
   .object({
@@ -15,3 +16,4 @@ export const updatePasswordSchema = z
     confirmPassword: z.string().min(5),
   })
   .strict();
+export type UpdatePasswordBody = z.infer<typeof updatePasswordSchema>;

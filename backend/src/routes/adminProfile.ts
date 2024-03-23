@@ -1,8 +1,12 @@
 import { Router } from "express";
 import { prisma } from "../utils/client";
 import createHttpError from "http-errors";
-import { updateAdminSchema, updatePasswordSchema } from "../models/admin";
-import { AdminUpdateBody, AdminUpdatePasswordBody } from "../entities/Admin";
+import {
+  updateSchema,
+  updatePasswordSchema,
+  UpdateBody,
+  UpdatePasswordBody,
+} from "../models/profile";
 import { comparePasswords, generateHashedPassword } from "../utils/authMethods";
 
 const router = Router();
@@ -17,7 +21,7 @@ router.get("/", async (req, res, next) => {
       throw createHttpError(401, "Unauthorized");
     }
 
-    // Get Admin
+    // Get admin
     const admin = await prisma.admin.findUnique({
       where: { id: adminId },
       select: { firstname: true, lastname: true, email: true },
@@ -37,12 +41,12 @@ router.put("/update", async (req, res, next) => {
     const adminId = req.headers.adminId;
     if (typeof adminId !== "string") throw createHttpError(401, "Unauthorized");
 
-    const validation = updateAdminSchema.safeParse(req.body);
+    const validation = updateSchema.safeParse(req.body);
     if (!validation.success)
       throw createHttpError(400, "Invalid Update Admin Inputs");
 
     // Update Admin
-    const updatedAdminData = req.body as AdminUpdateBody;
+    const updatedAdminData = req.body as UpdateBody;
     const updatedAdmin = await prisma.admin.update({
       where: { id: adminId },
       data: updatedAdminData,
@@ -77,9 +81,9 @@ router.put("/password/update", async (req, res, next) => {
       // check to shut typescript in comparePasswords
       throw createHttpError(502, "Database Error");
 
-    // Update Password
+    // Update password
     const { oldPassword, newPassword, confirmPassword } =
-      req.body as AdminUpdatePasswordBody;
+      req.body as UpdatePasswordBody;
 
     const isOldPasswordCorrect = await comparePasswords(
       oldPassword,

@@ -4,15 +4,13 @@ import {
   signinSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  SignupBody,
+  SigninBody,
+  ForgotPasswordBody,
+  ResetPasswordBody,
 } from "../models/auth";
 import createHttpError from "http-errors";
 import { prisma } from "../utils/client";
-import {
-  AdminSignupBody,
-  AdminForgotPasswordBody,
-  AdminResetPasswordBody,
-  AdminSigninBody,
-} from "../entities/Admin";
 import {
   comparePasswords,
   generateHashedPassword,
@@ -29,12 +27,12 @@ const router = Router();
 router.post("/signup", async (req, res, next) => {
   try {
     // Checks
-    const adminSignupData = req.body as AdminSignupBody;
-    const validation = signupSchema.safeParse(adminSignupData);
+    const validation = signupSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signup Input");
     }
 
+    const adminSignupData = req.body as SignupBody;
     const adminExist = await prisma.admin.findUnique({
       where: { email: adminSignupData.email },
     });
@@ -67,12 +65,12 @@ router.post("/signup", async (req, res, next) => {
 router.post("/signin", async (req, res, next) => {
   try {
     // Checks
-    const adminSigninData = req.body as AdminSigninBody;
-    const validation = signinSchema.safeParse(adminSigninData);
+    const validation = signinSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signin Inputs");
     }
 
+    const adminSigninData = req.body as SigninBody;
     const admin = await prisma.admin.findUnique({
       where: { email: adminSigninData.email },
     });
@@ -115,12 +113,12 @@ router.post("/logout", async (req, res, next) => {
 router.post("/password/forgot", async (req, res, next) => {
   try {
     // Checks
-    const { email } = req.body as AdminForgotPasswordBody;
-    const validation = forgotPasswordSchema.safeParse({ email });
+    const validation = forgotPasswordSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Forgot Password Inputs");
     }
 
+    const { email } = req.body as ForgotPasswordBody;
     const admin = await prisma.admin.findUnique({ where: { email } });
 
     if (!admin) throw createHttpError(404, "Admin Not Found");
@@ -187,8 +185,8 @@ router.put("/password/reset/:token", async (req, res, next) => {
     if (!validation.success)
       throw createHttpError(400, "Invalid Reset Password Inputs");
 
-    // Reset Password
-    const { password, confirmPassword } = req.body as AdminResetPasswordBody;
+    // Reset password
+    const { password, confirmPassword } = req.body as ResetPasswordBody;
     if (password !== confirmPassword)
       throw createHttpError(400, "Password Doesn't Match");
 

@@ -1,6 +1,6 @@
 export const emailTemplate = (
   username: string,
-  resetURL: string
+  resetUrl: string
 ) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -506,7 +506,7 @@ export const emailTemplate = (
                                 <tr>
                                   <td align="center">
                                     <a
-                                      href="${resetURL}"
+                                      href="${resetUrl}"
                                       class="f-fallback button button--blue"
                                       target="_blank"
                                       >Reset your password</a
@@ -532,7 +532,7 @@ export const emailTemplate = (
                                 browser.
                               </p>
                               <p class="f-fallback sub">
-                                <a href="${resetURL}">${resetURL}</a>
+                                <a href="${resetUrl}">${resetUrl}</a>
                               </p>
                             </td>
                           </tr>

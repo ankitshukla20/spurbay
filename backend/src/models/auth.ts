@@ -8,6 +8,7 @@ export const signupSchema = z
     password: z.string().min(5),
   })
   .strict();
+export type SignupBody = z.infer<typeof signupSchema>;
 
 export const signinSchema = z
   .object({
@@ -15,10 +16,12 @@ export const signinSchema = z
     password: z.string().min(5),
   })
   .strict();
+export type SigninBody = z.infer<typeof signinSchema>;
 
 export const forgotPasswordSchema = z
   .object({ email: z.string().email() })
   .strict();
+export type ForgotPasswordBody = z.infer<typeof forgotPasswordSchema>;
 
 export const resetPasswordSchema = z
   .object({
@@ -26,3 +29,4 @@ export const resetPasswordSchema = z
     confirmPassword: z.string().min(5),
   })
   .strict();
+export type ResetPasswordBody = z.infer<typeof resetPasswordSchema>;

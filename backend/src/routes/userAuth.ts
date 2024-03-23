@@ -1,5 +1,9 @@
 import { Router } from "express";
 import {
+  ForgotPasswordBody,
+  ResetPasswordBody,
+  SigninBody,
+  SignupBody,
   forgotPasswordSchema,
   resetPasswordSchema,
   signinSchema,
@@ -7,12 +11,6 @@ import {
 } from "../models/auth";
 import createHttpError from "http-errors";
 import { prisma } from "../utils/client";
-import {
-  UserSignupBody,
-  UserForgotPasswordBody,
-  UserResetPasswordBody,
-  UserSigninBody,
-} from "../entities/User";
 import {
   comparePasswords,
   generateHashedPassword,
@@ -29,12 +27,12 @@ const router = Router();
 router.post("/signup", async (req, res, next) => {
   try {
     // Checks
-    const userSignupData = req.body as UserSignupBody;
-    const validation = signupSchema.safeParse(userSignupData);
+    const validation = signupSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signup Input");
     }
 
+    const userSignupData = req.body as SignupBody;
     const userExist = await prisma.user.findUnique({
       where: { email: userSignupData.email },
     });
@@ -65,27 +63,22 @@ router.post("/signup", async (req, res, next) => {
 router.post("/signin", async (req, res, next) => {
   try {
     // Checks
-    const userSigninData = req.body as UserSigninBody;
-    const validation = signinSchema.safeParse(userSigninData);
+    const validation = signinSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signin Inputs");
     }
 
     // Login
+    const { email, password } = req.body as SigninBody;
     const user = await prisma.user.findUnique({
-      where: { email: userSigninData.email },
+      where: { email },
     });
 
     if (!user) {
       throw createHttpError(401, "Incorrect Credentials");
     }
-    const isPasswordCorrect = await comparePasswords(
-      userSigninData.password,
-      user.password
-    );
-    if (!isPasswordCorrect) {
-      throw createHttpError(401, "Incorrect Credentials");
-    }
+    const isPasswordCorrect = await comparePasswords(password, user.password);
+    if (!isPasswordCorrect) throw createHttpError(401, "Incorrect Credentials");
 
     const token = generateUserToken(user.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
@@ -113,12 +106,12 @@ router.post("/logout", async (req, res, next) => {
 router.post("/password/forgot", async (req, res, next) => {
   try {
     // Checks
-    const { email } = req.body as UserForgotPasswordBody;
-    const validation = forgotPasswordSchema.safeParse({ email });
+    const validation = forgotPasswordSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Forgot Password Inputs");
     }
 
+    const { email } = req.body as ForgotPasswordBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) throw createHttpError(404, "User Not Found");
@@ -136,10 +129,10 @@ router.post("/password/forgot", async (req, res, next) => {
     });
 
     // Send mail
-    const resetURL = `http://localhost:3000/api/auth/user/password/reset/${resetToken}`;
+    const resetUrl = `http://localhost:3000/api/auth/user/password/reset/${resetToken}`;
     const username = user.firstname;
 
-    const message = emailTemplate(username, resetURL);
+    const message = emailTemplate(username, resetUrl);
 
     await sendEmail({
       to: user.email,
@@ -185,7 +178,7 @@ router.put("/password/reset/:token", async (req, res, next) => {
     if (!validation.success)
       throw createHttpError(400, "Invalid Reset Password Inputs");
 
-    const { password, confirmPassword } = req.body as UserResetPasswordBody;
+    const { password, confirmPassword } = req.body as ResetPasswordBody;
     if (password !== confirmPassword)
       throw createHttpError(409, "Password Doesn't Match");
 

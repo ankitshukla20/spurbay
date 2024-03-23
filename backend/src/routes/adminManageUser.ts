@@ -12,6 +12,8 @@ interface User {
   createdAt: Date;
 }
 
+/* ---- Get all users  ---- */
+
 router.get("/", async (req, res, next) => {
   try {
     let users: User[];
@@ -38,6 +40,8 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+/* ---- Get A Single User  ---- */
 
 router.get("/:userId", async (req, res, next) => {
   try {

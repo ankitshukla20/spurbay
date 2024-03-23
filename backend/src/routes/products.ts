@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../utils/client";
 import createHttpError from "http-errors";
-import { Product } from "../entities/Product";
 import { getAllProducts, searchProducts } from "../utils/getProducts";
 
 const router = Router();
@@ -10,7 +9,7 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    let products: Product[];
+    let products;
 
     const pageNumber = parseInt(req.query.page as string) || 1;
     const pageSize = parseInt(req.query.size as string) || 10;

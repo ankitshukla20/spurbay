@@ -1,8 +1,12 @@
 import { Router } from "express";
 import { prisma } from "../utils/client";
 import createHttpError from "http-errors";
-import { updatePasswordSchema, updateUserSchema } from "../models/user";
-import { UserUpdateBody, UserUpdatePasswordBody } from "../entities/User";
+import {
+  UpdateBody,
+  UpdatePasswordBody,
+  updatePasswordSchema,
+  updateSchema,
+} from "../models/profile";
 import { comparePasswords, generateHashedPassword } from "../utils/authMethods";
 
 const router = Router();
@@ -37,12 +41,12 @@ router.put("/update", async (req, res, next) => {
     const userId = req.headers.userId;
     if (typeof userId !== "string") throw createHttpError(401, "Unauthorized");
 
-    const validation = updateUserSchema.safeParse(req.body);
+    const validation = updateSchema.safeParse(req.body);
     if (!validation.success)
       throw createHttpError(400, "Invalid Update User Inputs");
 
     // Update User
-    const updatedUserData = req.body as UserUpdateBody;
+    const updatedUserData = req.body as UpdateBody;
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: updatedUserData,
@@ -79,7 +83,7 @@ router.put("/password/update", async (req, res, next) => {
 
     // Update Password
     const { oldPassword, newPassword, confirmPassword } =
-      req.body as UserUpdatePasswordBody;
+      req.body as UpdatePasswordBody;
 
     const isOldPasswordCorrect = await comparePasswords(
       oldPassword,

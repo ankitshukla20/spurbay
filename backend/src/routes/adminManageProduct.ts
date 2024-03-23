@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { prisma } from "../utils/client";
-import { Product, UpdateProduct } from "../entities/Product";
-import { productSchema, updateProductSchema } from "../models/product";
+import {
+  CreateProductBody,
+  UpdateProductBody,
+  productSchema,
+  updateProductSchema,
+} from "../models/product";
 import createHttpError from "http-errors";
 
 const router = Router();
@@ -10,13 +14,14 @@ const router = Router();
 
 router.post("/", async (req, res, next) => {
   try {
-    const productData = req.body as Product;
-
-    const validation = productSchema.safeParse(productData);
+    // Checks
+    const validation = productSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Product Inputs");
     }
 
+    // Creating product
+    const productData = req.body as CreateProductBody;
     const product = await prisma.product.create({
       data: productData,
     });
@@ -39,14 +44,12 @@ router.put("/:id", async (req, res, next) => {
       throw createHttpError(404, "Couldn't Update. Product Not Found");
     }
 
-    const updatedData = req.body as UpdateProduct;
-
-    const validation = updateProductSchema.safeParse(updatedData);
-
+    const validation = updateProductSchema.safeParse(req.body);
     if (!validation.success) {
       throw createHttpError(400, "Couldn't Update. Invalid Product Inputs.");
     }
 
+    const updatedData = req.body as UpdateProductBody;
     const updatedProduct = await prisma.product.update({
       where: { id: req.params.id },
       data: updatedData,
