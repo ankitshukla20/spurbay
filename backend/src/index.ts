@@ -8,7 +8,10 @@ import adminRouter from "./routes/admin";
 import adminAuthRouter from "./routes/adminAuth";
 import userAuthRouter from "./routes/userAuth";
 import userRouter from "./routes/user";
-import { authenticateAdmin } from "./middlewares/authenticate";
+import {
+  authenticateAdmin,
+  authenticateUser,
+} from "./middlewares/authenticate";
 
 dotenv.config();
 
@@ -36,7 +39,7 @@ app.use("/api/products", productRouter);
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/admin", authenticateAdmin, adminRouter);
 app.use("/api/auth/user", userAuthRouter);
-app.use("/api/user", userRouter);
+app.use("/api/user", authenticateUser, userRouter);
 
 /* ---- Error handling middlewares ---- */
 

@@ -15,9 +15,17 @@ export const comparePasswords = async (
   return check;
 };
 
-export const generateToken = (id: string) => {
+export const generateAdminToken = (id: string) => {
   const payload = { id };
-  const token = jwt.sign(payload, process.env.JWT_SECRET!, {
+  const token = jwt.sign(payload, process.env.ADMIN_JWT_SECRET!, {
+    expiresIn: "1h",
+  });
+  return token;
+};
+
+export const generateUserToken = (id: string) => {
+  const payload = { id };
+  const token = jwt.sign(payload, process.env.USER_JWT_SECRET!, {
     expiresIn: "1h",
   });
   return token;

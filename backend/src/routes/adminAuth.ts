@@ -17,7 +17,7 @@ import {
   comparePasswords,
   generateHashedPassword,
   generateResetToken,
-  generateToken,
+  generateAdminToken,
 } from "../utils/authMethods";
 import { emailTemplate } from "../utils/emailTemplate";
 import { sendEmail } from "../utils/email";
@@ -53,7 +53,7 @@ router.post("/signup", async (req, res, next) => {
 
     console.log(admin);
 
-    const token = generateToken(admin.id);
+    const token = generateAdminToken(admin.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signup Successful" });
@@ -89,7 +89,7 @@ router.post("/signin", async (req, res, next) => {
     }
 
     // Login
-    const token = generateToken(admin.id);
+    const token = generateAdminToken(admin.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signin Successful" });

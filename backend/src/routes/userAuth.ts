@@ -17,7 +17,7 @@ import {
   comparePasswords,
   generateHashedPassword,
   generateResetToken,
-  generateToken,
+  generateUserToken,
 } from "../utils/authMethods";
 import { emailTemplate } from "../utils/emailTemplate";
 import { sendEmail } from "../utils/email";
@@ -51,7 +51,7 @@ router.post("/signup", async (req, res, next) => {
       data: { firstname, lastname, email, password: hashedPassword },
     });
 
-    const token = generateToken(user.id);
+    const token = generateUserToken(user.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signup Successful" });
@@ -87,7 +87,7 @@ router.post("/signin", async (req, res, next) => {
       throw createHttpError(401, "Incorrect Credentials");
     }
 
-    const token = generateToken(user.id);
+    const token = generateUserToken(user.id);
     res.cookie("token", token, { httpOnly: true, secure: true });
 
     res.json({ message: "Signin Successful" });
@@ -187,7 +187,7 @@ router.put("/password/reset/:token", async (req, res, next) => {
 
     const { password, confirmPassword } = req.body as UserResetPasswordBody;
     if (password !== confirmPassword)
-      throw createHttpError(400, "Password Doesn't Match");
+      throw createHttpError(409, "Password Doesn't Match");
 
     const hashedPassword = await generateHashedPassword(password);
     await prisma.user.update({

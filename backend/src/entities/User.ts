@@ -18,3 +18,14 @@ export interface UserResetPasswordBody {
   password: string;
   confirmPassword: string;
 }
+
+export interface UserUpdateBody {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+}
+export interface UserUpdatePasswordBody {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
