@@ -8,7 +8,7 @@ const router = Router();
 
 /* ---- Create New Product ---- */
 
-router.post("/product", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const productData = req.body as Product;
 
@@ -29,7 +29,7 @@ router.post("/product", async (req, res, next) => {
 
 /* ---- Update Product ---- */
 
-router.put("/product/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const product = await prisma.product.findUnique({
       where: { id: req.params.id },
@@ -60,7 +60,7 @@ router.put("/product/:id", async (req, res, next) => {
 
 /* ---- Delete Product ---- */
 
-router.delete("/product/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const product = await prisma.product.findUnique({
       where: { id: req.params.id },

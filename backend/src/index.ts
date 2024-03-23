@@ -7,6 +7,7 @@ import productRouter from "./routes/products";
 import adminAuthRouter from "./routes/adminAuth";
 import adminProfileRouter from "./routes/adminProfile";
 import adminManageProductRouter from "./routes/adminManageProduct";
+import adminManageUserRouter from "./routes/adminManageUser";
 import userAuthRouter from "./routes/userAuth";
 import userProfileRouter from "./routes/userProfile";
 import {
@@ -42,7 +43,8 @@ app.use("/api/products", productRouter);
 // Admin routes
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/admin/me", authenticateAdmin, adminProfileRouter);
-app.use("/api/admin", authenticateAdmin, adminManageProductRouter);
+app.use("/api/admin/users", authenticateAdmin, adminManageUserRouter);
+app.use("/api/admin/product", authenticateAdmin, adminManageProductRouter);
 
 // User routes
 app.use("/api/auth/user", userAuthRouter);
