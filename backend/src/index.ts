@@ -44,7 +44,7 @@ app.use("/api/products", productRouter);
 // Admin routes
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/admin/me", authenticateAdmin, adminProfileRouter);
-app.use("/api/admin/product", authenticateAdmin, adminManageProductRouter);
+app.use("/api/admin/products", authenticateAdmin, adminManageProductRouter);
 app.use("/api/admin/categories", authenticateAdmin, adminManageCategoryRouter);
 app.use("/api/admin/users", authenticateAdmin, adminManageUserRouter);
 
