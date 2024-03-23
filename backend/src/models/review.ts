@@ -8,3 +8,4 @@ export const reviewScheme = z
     comment: z.string(),
   })
   .strict();
+export type Review = z.infer<typeof reviewScheme>;

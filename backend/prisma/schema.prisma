@@ -8,14 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Size {
-  XS
-  S
-  M
-  L
-  XL
-}
-
+// Admin and User
 model Admin {
   id                 String    @id @default(cuid())
   firstname          String
@@ -32,40 +25,58 @@ model User {
   lastname           String
   email              String    @unique
   password           String
-  reviews            Review[]
   resetPwToken       String?
   resetPwTokenExpiry DateTime?
-  createdAt          DateTime  @default(now())
+
+  reviews Review[]
+  orders  Order[]
+
+  createdAt DateTime @default(now())
 }
 
+// Product, Category, Sub-Category
 model Product {
-  id            String                 @id @default(cuid())
-  name          String
-  price         Int
-  description   String
-  sizes         Size[]
-  images        ProductImage[]
-  stock         Int                    @default(0)
+  id          String         @id @default(cuid())
+  name        String
+  price       Int
+  description String
+  images      ProductImage[]
+  sizes       Size[]
+  stock       Int            @default(0)
+
   reviews       Review[]
   subCategories SubCategoryToProduct[]
-  createdAt     DateTime               @default(now())
-  updatedAt     DateTime               @updatedAt
+  OrderItem     OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
 }
 
 model Category {
-  id            String         @id @default(cuid())
-  name          String
-  image         CategoryImage?
+  id    String         @id @default(cuid())
+  name  String
+  image CategoryImage?
+
   subCategories SubCategory[]
 }
 
 model SubCategory {
-  id         String                 @id @default(cuid())
-  name       String
-  category   Category               @relation(fields: [categoryId], references: [id])
+  id    String            @id @default(cuid())
+  name  String
+  image SubCategoryImage?
+
+  category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
-  image      SubCategoryImage?
-  products   SubCategoryToProduct[]
+
+  products SubCategoryToProduct[]
 }
 
 model SubCategoryToProduct {
@@ -77,29 +88,92 @@ model SubCategoryToProduct {
 }
 
 model ProductImage {
-  id        String  @id @default(cuid())
+  id        String @id @default(cuid())
   public_id String
   url       String
+
   product   Product @relation(fields: [productId], references: [id])
   productId String
 }
 
 model CategoryImage {
-  id         String   @id @default(cuid())
-  public_id  String
-  url        String
+  id        String @id @default(cuid())
+  public_id String
+  url       String
+
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @unique
 }
 
 model SubCategoryImage {
-  id         String      @id @default(cuid())
-  public_id  String
-  url        String
+  id        String @id @default(cuid())
+  public_id String
+  url       String
+
   category   SubCategory @relation(fields: [categoryId], references: [id])
   categoryId String      @unique
 }
 
+// Order, Shipping Info, Order Item, Payment Info
+model Order {
+  id              String        @id @default(cuid())
+  itemsPrice      Int
+  taxAmount       Int
+  shippingAmount  Int
+  totalAmount     Int
+  shppingAddress  String
+  shippingCity    String
+  shippingZipCode String
+  shippingCountry String
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus
+
+  orderItems OrderItem[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  orderStatus OrderStatus @default(Processing)
+  deliveredAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PaymentMethod {
+  Card
+  Paypal
+  COD
+}
+
+enum PaymentStatus {
+  NotPaid
+  Paid
+}
+
+enum OrderStatus {
+  Processing
+  Shipped
+  Delivered
+}
+
+model OrderItem {
+  id       String @id @default(cuid())
+  name     String
+  image    String
+  price    Int
+  quantity String
+
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Review
 model Review {
   id        String  @id @default(cuid())
   user      User    @relation(fields: [userId], references: [id])
