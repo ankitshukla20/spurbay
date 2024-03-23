@@ -4,10 +4,11 @@ import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import productRouter from "./routes/products";
-import adminRouter from "./routes/admin";
 import adminAuthRouter from "./routes/adminAuth";
+import adminProfileRouter from "./routes/adminProfile";
+import adminManageProductRouter from "./routes/adminManageProduct";
 import userAuthRouter from "./routes/userAuth";
-import userRouter from "./routes/user";
+import userProfileRouter from "./routes/userProfile";
 import {
   authenticateAdmin,
   authenticateUser,
@@ -35,11 +36,17 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello from the Server of Spurbayfashions" });
 });
 
+// Product routes
 app.use("/api/products", productRouter);
+
+// Admin routes
 app.use("/api/auth/admin", adminAuthRouter);
-app.use("/api/admin", authenticateAdmin, adminRouter);
+app.use("/api/admin/me", authenticateAdmin, adminProfileRouter);
+app.use("/api/admin", authenticateAdmin, adminManageProductRouter);
+
+// User routes
 app.use("/api/auth/user", userAuthRouter);
-app.use("/api/user", authenticateUser, userRouter);
+app.use("/api/user/me", authenticateUser, userProfileRouter);
 
 /* ---- Error handling middlewares ---- */
 

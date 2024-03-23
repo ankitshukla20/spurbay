@@ -6,28 +6,6 @@ import createHttpError from "http-errors";
 
 const router = Router();
 
-/* ---- Get Admin Profile ---- */
-
-router.get("/me", async (req, res, next) => {
-  try {
-    // Checks
-    const adminId = req.headers.adminId;
-    if (typeof adminId !== "string") {
-      throw createHttpError(401, "Unauthorized");
-    }
-
-    // Get Admin
-    const admin = await prisma.admin.findUnique({
-      where: { id: adminId },
-      select: { firstname: true, lastname: true, email: true },
-    });
-
-    res.json({ admin });
-  } catch (err) {
-    next(err);
-  }
-});
-
 /* ---- Create New Product ---- */
 
 router.post("/product", async (req, res, next) => {

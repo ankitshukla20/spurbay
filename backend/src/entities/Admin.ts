@@ -17,3 +17,14 @@ export interface AdminResetPasswordBody {
   password: string;
   confirmPassword: string;
 }
+
+export interface AdminUpdateBody {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+}
+export interface AdminUpdatePasswordBody {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}

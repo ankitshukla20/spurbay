@@ -4,13 +4,12 @@ import createHttpError from "http-errors";
 import { updatePasswordSchema, updateUserSchema } from "../models/user";
 import { UserUpdateBody, UserUpdatePasswordBody } from "../entities/User";
 import { comparePasswords, generateHashedPassword } from "../utils/authMethods";
-import { string } from "zod";
 
 const router = Router();
 
 /* ---- Get User Profile ---- */
 
-router.get("/me", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     // Checks
     const userId = req.headers.userId;
@@ -32,7 +31,7 @@ router.get("/me", async (req, res, next) => {
 
 /* ---- Update User Profile ---- */
 
-router.put("/me/update", async (req, res, next) => {
+router.put("/update", async (req, res, next) => {
   try {
     // Checks
     const userId = req.headers.userId;
@@ -56,7 +55,7 @@ router.put("/me/update", async (req, res, next) => {
   }
 });
 
-/* ---- Uodate User Password ---- */
+/* ---- Update User Password ---- */
 
 router.put("/password/update", async (req, res, next) => {
   try {
