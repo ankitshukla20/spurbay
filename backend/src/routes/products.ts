@@ -21,7 +21,10 @@ router.get("/", async (req, res, next) => {
     } else {
       products = await getAllProducts({ pageNumber, pageSize });
     }
-    res.json({ products });
+
+    const totalProductsCount = await prisma.product.count();
+
+    res.json({ productsCount: totalProductsCount, products });
   } catch (err) {
     next(err);
   }

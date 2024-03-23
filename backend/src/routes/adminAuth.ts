@@ -8,7 +8,7 @@ import {
 import createHttpError from "http-errors";
 import { prisma } from "../utils/client";
 import {
-  Admin,
+  AdminSignupBody,
   AdminForgotPasswordBody,
   AdminResetPasswordBody,
   AdminSigninBody,
@@ -29,7 +29,7 @@ const router = Router();
 router.post("/signup", async (req, res, next) => {
   try {
     // Checks
-    const adminSignupData = req.body as Admin;
+    const adminSignupData = req.body as AdminSignupBody;
     const validation = signupSchema.safeParse(adminSignupData);
     if (!validation.success) {
       throw createHttpError(400, "Invalid Signup Input");

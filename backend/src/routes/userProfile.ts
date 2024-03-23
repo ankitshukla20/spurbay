@@ -49,7 +49,7 @@ router.put("/update", async (req, res, next) => {
       select: { firstname: true, lastname: true, email: true },
     });
 
-    res.json({ message: "User Profile Updated", user_profile: updatedUser });
+    res.json({ message: "User Profile Updated", user: updatedUser });
   } catch (err) {
     next(err);
   }

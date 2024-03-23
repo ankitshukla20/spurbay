@@ -1,4 +1,4 @@
-export interface Admin {
+export interface AdminSignupBody {
   firstname: string;
   lastname: string;
   email: string;
