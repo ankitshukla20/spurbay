@@ -41,7 +41,7 @@ model Product {
   price       Int
   description String
   images      ProductImage[]
-  sizes       Size[]
+  sizes       String[]       @default([])
   stock       Int            @default(0)
 
   reviews       Review[]
@@ -50,14 +50,6 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Size {
-  XS
-  S
-  M
-  L
-  XL
 }
 
 model Category {
@@ -116,22 +108,25 @@ model SubCategoryImage {
 
 // Order, Shipping Info, Order Item, Payment Info
 model Order {
-  id              String        @id @default(cuid())
-  itemsPrice      Int
-  taxAmount       Int
-  shippingAmount  Int
-  totalAmount     Int
-  shppingAddress  String
-  shippingCity    String
-  shippingZipCode String
-  shippingCountry String
-  paymentMethod   PaymentMethod
-  paymentStatus   PaymentStatus
-
-  orderItems OrderItem[]
+  id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  itemsPrice     Int
+  taxAmount      Int
+  shippingAmount Int
+  totalAmount    Int
+
+  shippingAddress String
+  shippingCity    String
+  shippingZipCode String
+  shippingCountry String
+
+  paymentMethod PaymentMethod
+  paymentStatus PaymentStatus
+
+  orderItems OrderItem[]
 
   orderStatus OrderStatus @default(Processing)
   deliveredAt DateTime?
@@ -158,16 +153,18 @@ enum OrderStatus {
 }
 
 model OrderItem {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
-  image    String
+  size     String?
   price    Int
-  quantity String
+  quantity Int
+  image    String
 
-  order     Order   @relation(fields: [orderId], references: [id])
-  orderId   String
   product   Product @relation(fields: [productId], references: [id])
   productId String
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

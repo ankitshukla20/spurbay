@@ -15,13 +15,8 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    // Checks
-    const adminId = req.headers.adminId;
-    if (typeof adminId !== "string") {
-      throw createHttpError(401, "Unauthorized");
-    }
+    const adminId = req.headers.adminId as string;
 
-    // Get admin
     const admin = await prisma.admin.findUnique({
       where: { id: adminId },
       select: { firstname: true, lastname: true, email: true },
@@ -38,15 +33,14 @@ router.get("/", async (req, res, next) => {
 router.put("/update", async (req, res, next) => {
   try {
     // Checks
-    const adminId = req.headers.adminId;
-    if (typeof adminId !== "string") throw createHttpError(401, "Unauthorized");
-
     const validation = updateSchema.safeParse(req.body);
     if (!validation.success)
       throw createHttpError(400, "Invalid Update Admin Inputs");
 
     // Update Admin
+    const adminId = req.headers.adminId as string;
     const updatedAdminData = req.body as UpdateBody;
+
     const updatedAdmin = await prisma.admin.update({
       where: { id: adminId },
       data: updatedAdminData,
@@ -68,10 +62,8 @@ router.put("/password/update", async (req, res, next) => {
     if (!validation.success)
       throw createHttpError(401, "Invalid Update Password Inputs");
 
-    const adminId = req.headers.adminId;
-    if (typeof adminId !== "string") {
-      throw createHttpError(401, "Unauthorized");
-    }
+    const adminId = req.headers.adminId as string;
+
     const admin = await prisma.admin.findUnique({
       where: { id: adminId },
       select: { password: true },

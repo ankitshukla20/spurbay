@@ -129,7 +129,7 @@ router.post("/password/forgot", async (req, res, next) => {
     });
 
     // Send mail
-    const resetUrl = `http://localhost:3000/api/auth/user/password/reset/${resetToken}`;
+    const resetUrl = `http://localhost:3000/api/auth/password/reset/${resetToken}`;
     const username = user.firstname;
 
     const message = emailTemplate(username, resetUrl);

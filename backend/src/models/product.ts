@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-const SizeEnum = z.enum(["XS", "S", "M", "L", "XL"]);
-
 export const productSchema = z
   .object({
     name: z.string(),
     price: z.number(),
     description: z.string(),
-    sizes: z.array(SizeEnum).optional(),
+    sizes: z.array(z.string()).optional(),
     stock: z.number().optional(),
   })
   .strict();

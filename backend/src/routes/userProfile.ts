@@ -16,10 +16,7 @@ const router = Router();
 router.get("/", async (req, res, next) => {
   try {
     // Checks
-    const userId = req.headers.userId;
-    if (typeof userId !== "string") {
-      throw createHttpError(401, "Unauthorized");
-    }
+    const userId = req.headers.userId as string;
 
     // Get User
     const user = await prisma.user.findUnique({
@@ -38,8 +35,7 @@ router.get("/", async (req, res, next) => {
 router.put("/update", async (req, res, next) => {
   try {
     // Checks
-    const userId = req.headers.userId;
-    if (typeof userId !== "string") throw createHttpError(401, "Unauthorized");
+    const userId = req.headers.userId as string;
 
     const validation = updateSchema.safeParse(req.body);
     if (!validation.success)
@@ -68,10 +64,8 @@ router.put("/password/update", async (req, res, next) => {
     if (!validation.success)
       throw createHttpError(401, "Invalid Update Password Inputs");
 
-    const userId = req.headers.userId;
-    if (typeof userId !== "string") {
-      throw createHttpError(401, "Unauthorized");
-    }
+    const userId = req.headers.userId as string;
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { password: true },

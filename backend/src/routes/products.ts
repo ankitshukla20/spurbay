@@ -5,11 +5,22 @@ import { getAllProducts, searchProducts } from "../utils/getProducts";
 
 const router = Router();
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  sizes: string[];
+  stock: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 /* ---- Get All Products  ---- */
 
 router.get("/", async (req, res, next) => {
   try {
-    let products;
+    let products: Product[];
 
     const pageNumber = parseInt(req.query.page as string) || 1;
     const pageSize = parseInt(req.query.size as string) || 10;

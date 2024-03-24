@@ -3,14 +3,20 @@ import dotenv from "dotenv";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
 import productRouter from "./routes/products";
+
+import userAuthRouter from "./routes/userAuth";
+import userProfileRouter from "./routes/userProfile";
+import userOrderRouter from "./routes/userOrder";
+
 import adminAuthRouter from "./routes/adminAuth";
 import adminProfileRouter from "./routes/adminProfile";
 import adminManageProductRouter from "./routes/adminManageProduct";
 import adminManageCategoryRouter from "./routes/adminManageCategories";
+import adminOrderRouter from "./routes/adminManageOrder";
 import adminManageUserRouter from "./routes/adminManageUser";
-import userAuthRouter from "./routes/userAuth";
-import userProfileRouter from "./routes/userProfile";
+
 import {
   authenticateAdmin,
   authenticateUser,
@@ -41,16 +47,23 @@ app.get("/", (req, res) => {
 // Product routes
 app.use("/api/products", productRouter);
 
+// User routes
+app.use("/api/auth", userAuthRouter);
+app.use("/api/me", authenticateUser, userProfileRouter);
+app.use("/api/orders", authenticateUser, userOrderRouter);
+
 // Admin routes
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/admin/me", authenticateAdmin, adminProfileRouter);
 app.use("/api/admin/products", authenticateAdmin, adminManageProductRouter);
+/* 
+  rename category, subcategory 
+  delete subcategory(remove that entry from SubCategoryToProduct table), 
+  delete category (if all of its subcategories are deleted)
+ */
 app.use("/api/admin/categories", authenticateAdmin, adminManageCategoryRouter);
+app.use("/api/admin/orders", authenticateAdmin, adminOrderRouter);
 app.use("/api/admin/users", authenticateAdmin, adminManageUserRouter);
-
-// User routes
-app.use("/api/auth/user", userAuthRouter);
-app.use("/api/user/me", authenticateUser, userProfileRouter);
 
 /* ---- Error handling middlewares ---- */
 
