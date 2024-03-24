@@ -58,4 +58,22 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+/* ---- Get All Reviews For A Product ---- */
+
+router.get("/reviews/:productId", async (req, res, next) => {
+  try {
+    const productId = req.params.productId as string;
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { reviews: true },
+    });
+
+    if (!product) throw createHttpError(404, "Product Not Found");
+
+    res.json({ reviews: product.reviews });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

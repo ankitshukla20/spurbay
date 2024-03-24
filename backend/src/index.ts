@@ -9,6 +9,7 @@ import productRouter from "./routes/products";
 import userAuthRouter from "./routes/userAuth";
 import userProfileRouter from "./routes/userProfile";
 import userOrderRouter from "./routes/userOrder";
+import userReviewRouter from "./routes/userReview";
 
 import adminAuthRouter from "./routes/adminAuth";
 import adminProfileRouter from "./routes/adminProfile";
@@ -16,6 +17,7 @@ import adminManageProductRouter from "./routes/adminManageProduct";
 import adminManageCategoryRouter from "./routes/adminManageCategories";
 import adminOrderRouter from "./routes/adminManageOrder";
 import adminManageUserRouter from "./routes/adminManageUser";
+import adminManageReviewRouter from "./routes/adminManageReviews";
 
 import {
   authenticateAdmin,
@@ -51,6 +53,7 @@ app.use("/api/products", productRouter);
 app.use("/api/auth", userAuthRouter);
 app.use("/api/me", authenticateUser, userProfileRouter);
 app.use("/api/orders", authenticateUser, userOrderRouter);
+app.use("/api/reviews", authenticateUser, userReviewRouter);
 
 // Admin routes
 app.use("/api/auth/admin", adminAuthRouter);
@@ -64,6 +67,7 @@ app.use("/api/admin/products", authenticateAdmin, adminManageProductRouter);
 app.use("/api/admin/categories", authenticateAdmin, adminManageCategoryRouter);
 app.use("/api/admin/orders", authenticateAdmin, adminOrderRouter);
 app.use("/api/admin/users", authenticateAdmin, adminManageUserRouter);
+app.use("/api/admin/reviews", authenticateAdmin, adminManageReviewRouter);
 
 /* ---- Error handling middlewares ---- */
 
