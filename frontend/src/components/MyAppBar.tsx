@@ -9,6 +9,7 @@ import {
   Grid,
   IconButton,
   List,
+  ListItem,
   ListItemButton,
   ListItemText,
   Toolbar,
@@ -26,6 +27,74 @@ export default function MyAppBar() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  const drawer = (
+    <>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{
+              textAlign: "center",
+              color: location.pathname === "/" ? "primary.main" : "inherit",
+            }}
+            onClick={toggleMenu}
+            component={Link}
+            to="/"
+          >
+            <ListItemText primary={"Home"} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{
+              textAlign: "center",
+              color: location.pathname === "/shop" ? "primary.main" : "inherit",
+            }}
+            onClick={toggleMenu}
+            component={Link}
+            to="/shop"
+          >
+            <ListItemText primary={"Shop"} />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider sx={{ mt: 1, mb: 3 }} />
+
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{
+              bgcolor: "primary.light",
+              color: "primary.contrastText",
+              textAlign: "center",
+              border: 1,
+              borderRadius: 2,
+              mx: 3,
+              my: 1,
+            }}
+            onClick={toggleMenu}
+          >
+            <ListItemText primary="Signin" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItemButton
+          sx={{
+            bgcolor: "primary.light",
+            color: "primary.contrastText",
+            textAlign: "center",
+            border: 1,
+            borderRadius: 2,
+            mx: 3,
+            my: 1,
+          }}
+          onClick={toggleMenu}
+        >
+          <ListItemText primary="Signup" />
+        </ListItemButton>
+      </List>
+    </>
+  );
 
   // For smaller screen
   if (isMobile) {
@@ -52,67 +121,7 @@ export default function MyAppBar() {
                   "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
                 }}
               >
-                <List>
-                  <ListItemButton
-                    sx={{
-                      m: 1,
-                      textAlign: "center",
-                      bgcolor:
-                        location.pathname === "/" ? "primary.main" : "inherit",
-                      color:
-                        location.pathname === "/"
-                          ? "primary.contrastText"
-                          : "inherit",
-                    }}
-                    onClick={toggleMenu}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText primary="Home" />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      m: 1,
-                      textAlign: "center",
-                      bgcolor:
-                        location.pathname === "/shop"
-                          ? "primary.main"
-                          : "inherit",
-                      color:
-                        location.pathname === "/shop"
-                          ? "primary.contrastText"
-                          : "inherit",
-                    }}
-                    onClick={toggleMenu}
-                    component={Link}
-                    to="/shop"
-                  >
-                    <ListItemText primary="Shop" />
-                  </ListItemButton>
-                  <Divider sx={{ mx: 3, mb: 3 }} />
-                  <ListItemButton
-                    sx={{
-                      textAlign: "center",
-                      m: 2,
-                      border: 1,
-                      borderRadius: 1,
-                    }}
-                    onClick={toggleMenu}
-                  >
-                    <ListItemText primary="Signup" />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      textAlign: "center",
-                      m: 2,
-                      border: 1,
-                      borderRadius: 1,
-                    }}
-                    onClick={toggleMenu}
-                  >
-                    <ListItemText primary="Signin" />
-                  </ListItemButton>
-                </List>
+                {drawer}
               </Drawer>
             </Grid>
 
