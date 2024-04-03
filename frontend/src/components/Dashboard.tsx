@@ -1,3 +1,9 @@
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import AppsRoundedIcon from "@mui/icons-material/AppsRounded";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import {
   Box,
   Divider,
@@ -11,6 +17,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import SidebarNavButton from "./Nav/SidebarNavButton";
 
 const drawerWidth = 240;
 
@@ -24,116 +31,63 @@ export default function Dashboard() {
   const drawer = (
     <Box>
       <Typography
+        textAlign="center"
+        color="inherit"
         variant="h6"
-        component="div"
-        sx={{ textAlign: "center", px: 2, pt: 2 }}
+        sx={{ px: 2, pt: 2 }}
       >
         Admin Dashboard
       </Typography>
-      <Divider sx={{ mt: 2, mb: 1, mx: 2 }} />
+      <Divider sx={{ mt: 2, mb: 1, mx: 1 }} />
 
       <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"Analytics"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin"
+          Icon={BarChartRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          Analytics
+        </SidebarNavButton>
 
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"New Product"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin/ap"
+          Icon={AddCircleOutlineRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          New Product
+        </SidebarNavButton>
 
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"Products"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin/p"
+          Icon={AppsRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          Products
+        </SidebarNavButton>
 
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"Orders"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin/o"
+          Icon={ReceiptRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          Orders
+        </SidebarNavButton>
 
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"Users"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin/u"
+          Icon={PeopleAltRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          Users
+        </SidebarNavButton>
 
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleListItemClick}
-            component={Link}
-            to="/admin"
-            sx={{
-              color:
-                location.pathname === "/admin" ? "primary.main" : "inherit",
-            }}
-          >
-            {/* <ListItemIcon>
-        {icon}
-      </ListItemIcon> */}
-            <ListItemText primary={"Reviews"} />
-          </ListItemButton>
-        </ListItem>
+        <SidebarNavButton
+          to="/admin/r"
+          Icon={StarRoundedIcon}
+          onClick={handleListItemClick}
+        >
+          Reviews
+        </SidebarNavButton>
 
         <Divider sx={{ my: 1, mx: 4 }} />
 

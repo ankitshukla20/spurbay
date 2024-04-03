@@ -21,10 +21,16 @@ router.get("/", async (req, res, next) => {
     // Get User
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { firstname: true, lastname: true, email: true },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        createdAt: true,
+      },
     });
 
-    res.json({ user });
+    res.json({ ...user });
   } catch (err) {
     next(err);
   }
