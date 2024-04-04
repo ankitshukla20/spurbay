@@ -1,19 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  Link,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useSignin from "../../hooks/useSignin";
 import { SigninBody, signinSchema } from "../../schemas/authSchema";
-import { useEffect, useState } from "react";
+import MySnackbar from "../MySnackbar";
 
 export default function Signin() {
   const {
@@ -38,22 +29,6 @@ export default function Signin() {
     signin.mutate(data);
   };
 
-  // Snackbar Logic
-  const [open, setOpen] = useState(false);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (signin.isError) setOpen(true);
-  }, [signin.isError]);
-
-  // Return
   return (
     <>
       <Typography component="h1" variant="h5">
@@ -115,16 +90,9 @@ export default function Signin() {
         </Grid>
       </Box>
 
-      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert
-          elevation={6}
-          variant="filled"
-          onClose={handleClose}
-          severity="error"
-        >
-          {signin.error?.response?.data.error}
-        </Alert>
-      </Snackbar>
+      <MySnackbar check={signin.isError} severity="error">
+        {signin.error?.response?.data.error}
+      </MySnackbar>
     </>
   );
 }

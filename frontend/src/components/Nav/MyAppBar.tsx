@@ -1,20 +1,27 @@
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Badge, Grid, IconButton, Toolbar } from "@mui/material";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { HttpError } from "../../services/http-error";
 import { userState } from "../../store";
 import AuthButton from "./AuthButton";
-import CompanyName from "./CompanyName";
+import CompanyName from "../CompanyName";
 import MyDrawer from "./MyDrawer";
 import MySwipableDrawer from "./MySwipableDrawer";
 import NavButton from "./NavButton";
 import NotUserDrawerItems from "./NotUserDrawerItems";
 import UserDrawerItems from "./UserDrawerItems";
 import UserMenu from "./UserMenu";
+import { LogoutResponse } from "../../hooks/useUserLogout";
 
-export default function MyAppBar() {
+interface Props {
+  logoutFn: UseMutateFunction<LogoutResponse, HttpError, void, unknown>;
+}
+
+export default function MyAppBar({ logoutFn }: Props) {
   const user = useRecoilValue(userState);
 
   const [sidebar, setSidebar] = useState(false);
@@ -55,7 +62,7 @@ export default function MyAppBar() {
 
             <Grid item md={3} textAlign="right">
               {user ? (
-                <UserMenu user={user} />
+                <UserMenu user={user} logoutFn={logoutFn} />
               ) : (
                 <>
                   <AuthButton to="/auth/register">Signup</AuthButton>
@@ -80,7 +87,11 @@ export default function MyAppBar() {
         onClose={() => setSwipebar(false)}
       >
         {user ? (
-          <UserDrawerItems user={user} onClick={toggleSwipebar} />
+          <UserDrawerItems
+            user={user}
+            logoutFn={logoutFn}
+            onClick={toggleSwipebar}
+          />
         ) : (
           <NotUserDrawerItems onCLick={toggleSwipebar} />
         )}
@@ -101,7 +112,11 @@ export default function MyAppBar() {
 
               <MyDrawer open={sidebar} handleDrawer={toggleSidebar}>
                 {user ? (
-                  <UserDrawerItems user={user} onClick={toggleSidebar} />
+                  <UserDrawerItems
+                    user={user}
+                    logoutFn={logoutFn}
+                    onClick={toggleSidebar}
+                  />
                 ) : (
                   <NotUserDrawerItems onCLick={toggleSidebar} />
                 )}

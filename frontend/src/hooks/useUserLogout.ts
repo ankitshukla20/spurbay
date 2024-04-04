@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../store";
 import { HttpError } from "../services/http-error";
 
-interface Response {
+export interface LogoutResponse {
   message: string;
 }
 
@@ -14,12 +14,12 @@ const useUserLogout = () => {
 
   return useMutation({
     mutationFn: () =>
-      apiClient.post<Response>("/auth/logout").then((res) => res.data),
+      apiClient.post<LogoutResponse>("/auth/logout").then((res) => res.data),
 
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       setUser(null);
-      console.log(data.message);
+      console.log(response.message);
     },
 
     onError: (error: HttpError) => {

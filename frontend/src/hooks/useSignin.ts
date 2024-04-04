@@ -14,7 +14,10 @@ const useSignin = (onSignin: () => void) => {
         .post<Response>("/auth/signin", signinBody)
         .then((res) => res.data),
 
-    onSuccess: () => onSignin(),
+    onSuccess: (response) => {
+      onSignin();
+      console.log(response.message);
+    },
 
     onError: (error: HttpError) => {
       console.log(error.response?.data.error);

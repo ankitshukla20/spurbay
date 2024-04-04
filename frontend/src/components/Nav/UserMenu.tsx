@@ -1,13 +1,16 @@
 import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
-import useUserLogout from "../../hooks/useUserLogout";
+import { HttpError } from "../../services/http-error";
 import { User } from "../../store";
+import { LogoutResponse } from "../../hooks/useUserLogout";
 
 interface Props {
   user: User;
+  logoutFn: UseMutateFunction<LogoutResponse, HttpError, void, unknown>;
 }
 
-export default function UserMenu({ user }: Props) {
+export default function UserMenu({ user, logoutFn }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     if (!anchorEl) {
@@ -18,9 +21,8 @@ export default function UserMenu({ user }: Props) {
     setAnchorEl(null);
   };
 
-  const logout = useUserLogout();
   const handleLogout = () => {
-    logout.mutate();
+    logoutFn();
     handleClose();
   };
 

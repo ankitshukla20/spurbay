@@ -1,20 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { FieldValues, useForm } from "react-hook-form";
-import { Link as RouterLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import useSignup from "../../hooks/useSignup";
 import { SignupBody, signupSchema } from "../../schemas/authSchema";
+import MySnackbar from "../MySnackbar";
 
 export default function Signup() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignupBody>({
     resolver: zodResolver(signupSchema),
   });
 
-  const submitHandler = (data: FieldValues) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const onSignup = () => {
+    reset();
+    navigate("/");
+  };
+
+  const signup = useSignup(onSignup);
+
+  const submitHandler = (data: SignupBody) => {
+    signup.mutate(data);
   };
 
   return (
@@ -59,7 +71,12 @@ export default function Signup() {
             )}
           </Grid>
           <Grid item xs={12}>
-            <TextField fullWidth label="Password" {...register("password")} />
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              {...register("password")}
+            />
             {errors.password && (
               <Typography variant="caption" color="error">
                 {errors.password.message}
@@ -86,6 +103,10 @@ export default function Signup() {
           </Grid>
         </Grid>
       </Box>
+
+      <MySnackbar check={signup.isError} severity="error">
+        {signup.error?.response?.data.error}
+      </MySnackbar>
     </>
   );
 }

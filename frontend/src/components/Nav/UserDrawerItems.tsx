@@ -7,19 +7,21 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { LogoutResponse } from "../../hooks/useUserLogout";
+import { HttpError } from "../../services/http-error";
 import { User } from "../../store";
 import SidebarNavButton from "./SidebarNavButton";
-import useUserLogout from "../../hooks/useUserLogout";
 
 interface Props {
   user: User;
   onClick: () => void;
+  logoutFn: UseMutateFunction<LogoutResponse, HttpError, void, unknown>;
 }
 
-export default function UserDrawerItems({ user, onClick }: Props) {
-  const logout = useUserLogout();
+export default function UserDrawerItems({ user, onClick, logoutFn }: Props) {
   const handleLogout = () => {
-    logout.mutate();
+    logoutFn();
     onClick();
   };
 
