@@ -1,7 +1,7 @@
-import { Button, Menu, MenuItem, Divider, Tooltip } from "@mui/material";
+import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
-import { User } from "../../store";
 import useUserLogout from "../../hooks/useUserLogout";
+import { User } from "../../store";
 
 interface Props {
   user: User;
@@ -50,12 +50,12 @@ export default function UserMenu({ user }: Props) {
         id="menu-appbar"
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
         keepMounted
         transformOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
         open={Boolean(anchorEl)}
@@ -65,11 +65,9 @@ export default function UserMenu({ user }: Props) {
           Orders
         </MenuItem>
 
-        <MenuItem sx={{ px: 4 }} onClick={handleClose}>
+        <MenuItem sx={{ px: 4 }} onClick={handleClose} divider>
           Profile
         </MenuItem>
-
-        <Divider />
 
         <MenuItem sx={{ px: 4 }} onClick={handleLogout}>
           Logout

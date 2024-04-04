@@ -1,14 +1,6 @@
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Badge,
-  Grid,
-  IconButton,
-  Toolbar,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { AppBar, Badge, Grid, IconButton, Toolbar } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -25,9 +17,6 @@ import UserMenu from "./UserMenu";
 export default function MyAppBar() {
   const user = useRecoilValue(userState);
 
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {
     setSidebar(!sidebar);
@@ -38,60 +27,9 @@ export default function MyAppBar() {
     setSwipebar(!swipebar);
   };
 
-  // For Small Screen
-  if (isSmallScreen) {
-    return (
-      <AppBar position="static" elevation={1} color="transparent">
-        <Toolbar>
-          <Grid container alignItems="center">
-            <Grid item xs={2}>
-              <IconButton color="inherit" onClick={toggleSidebar}>
-                <MenuIcon />
-              </IconButton>
-
-              <MySwipableDrawer
-                open={swipebar}
-                onOpen={() => setSwipebar(true)}
-                onClose={() => setSwipebar(false)}
-              >
-                {user ? (
-                  <UserDrawerItems user={user} onClick={toggleSwipebar} />
-                ) : (
-                  <NotUserDrawerItems onCLick={toggleSwipebar} />
-                )}
-              </MySwipableDrawer>
-
-              <MyDrawer open={sidebar} handleDrawer={toggleSidebar}>
-                {user ? (
-                  <UserDrawerItems user={user} onClick={toggleSidebar} />
-                ) : (
-                  <NotUserDrawerItems onCLick={toggleSidebar} />
-                )}
-              </MyDrawer>
-            </Grid>
-
-            <Grid item xs={8} textAlign="center">
-              <Link to="/" style={{ textDecoration: "none" }}>
-                <CompanyName />
-              </Link>
-            </Grid>
-
-            <Grid item xs={2} textAlign="right">
-              <IconButton color="inherit">
-                <Badge badgeContent={2} color="primary">
-                  <LocalMallRoundedIcon />
-                </Badge>
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    );
-  }
-
-  // For Big Screen
   return (
     <>
+      {/* For Window Screen */}
       <AppBar
         position="sticky"
         elevation={0}
@@ -99,6 +37,7 @@ export default function MyAppBar() {
         sx={{
           backdropFilter: "blur(10px)",
           backgroundColor: "rgba(255, 255, 255, 0.5)",
+          display: { xs: "none", md: "block" },
         }}
       >
         <Toolbar>
@@ -124,6 +63,58 @@ export default function MyAppBar() {
                 </>
               )}
 
+              <IconButton color="inherit">
+                <Badge badgeContent={2} color="primary">
+                  <LocalMallRoundedIcon />
+                </Badge>
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+
+      {/* For Smaller screen */}
+      <MySwipableDrawer
+        open={swipebar}
+        onOpen={() => setSwipebar(true)}
+        onClose={() => setSwipebar(false)}
+      >
+        {user ? (
+          <UserDrawerItems user={user} onClick={toggleSwipebar} />
+        ) : (
+          <NotUserDrawerItems onCLick={toggleSwipebar} />
+        )}
+      </MySwipableDrawer>
+
+      <AppBar
+        position="static"
+        elevation={1}
+        color="transparent"
+        sx={{ display: { xs: "block", md: "none" } }}
+      >
+        <Toolbar>
+          <Grid container alignItems="center">
+            <Grid item xs={2}>
+              <IconButton color="inherit" onClick={toggleSidebar}>
+                <MenuIcon />
+              </IconButton>
+
+              <MyDrawer open={sidebar} handleDrawer={toggleSidebar}>
+                {user ? (
+                  <UserDrawerItems user={user} onClick={toggleSidebar} />
+                ) : (
+                  <NotUserDrawerItems onCLick={toggleSidebar} />
+                )}
+              </MyDrawer>
+            </Grid>
+
+            <Grid item xs={8} textAlign="center">
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <CompanyName />
+              </Link>
+            </Grid>
+
+            <Grid item xs={2} textAlign="right">
               <IconButton color="inherit">
                 <Badge badgeContent={2} color="primary">
                   <LocalMallRoundedIcon />
