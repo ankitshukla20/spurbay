@@ -14,7 +14,7 @@ export default function Layout() {
     if (data) {
       setUser(data);
     }
-  }, [data, setUser]);
+  }, [data]);
 
   return (
     <>

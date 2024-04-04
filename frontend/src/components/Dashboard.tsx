@@ -30,12 +30,7 @@ export default function Dashboard() {
 
   const drawer = (
     <Box>
-      <Typography
-        textAlign="center"
-        color="inherit"
-        variant="h6"
-        sx={{ px: 2, pt: 2 }}
-      >
+      <Typography textAlign="center" color="inherit" variant="h6" sx={{ m: 3 }}>
         Admin Dashboard
       </Typography>
       <Divider sx={{ mt: 2, mb: 1, mx: 1 }} />
@@ -98,8 +93,7 @@ export default function Dashboard() {
               textAlign: "center",
               border: 1,
               borderRadius: 2,
-              mx: 3,
-              my: 2,
+              m: 3,
             }}
             component={Link}
             to="/"

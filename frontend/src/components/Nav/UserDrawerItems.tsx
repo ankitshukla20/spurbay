@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { User } from "../../store";
 import SidebarNavButton from "./SidebarNavButton";
+import useUserLogout from "../../hooks/useUserLogout";
 
 interface Props {
   user: User;
@@ -16,6 +17,12 @@ interface Props {
 }
 
 export default function UserDrawerItems({ user, toggleMenu }: Props) {
+  const logout = useUserLogout();
+  const handleLogout = () => {
+    logout.mutate();
+    toggleMenu();
+  };
+
   return (
     <Box>
       <Typography
@@ -59,10 +66,7 @@ export default function UserDrawerItems({ user, toggleMenu }: Props) {
               mx: 6,
               mt: 3,
             }}
-            onClick={() => {
-              toggleMenu();
-              console.log("Logout");
-            }}
+            onClick={handleLogout}
           >
             <ListItemText primary="Logout" />
           </ListItemButton>

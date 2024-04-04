@@ -3,12 +3,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Badge,
-  Button,
-  Divider,
   Grid,
   IconButton,
-  Menu,
-  MenuItem,
   Toolbar,
   useMediaQuery,
   useTheme,
@@ -23,6 +19,7 @@ import MyDrawer from "./MyDrawer";
 import NavButton from "./NavButton";
 import NotUserDrawerItems from "./NotUserDrawerItems";
 import UserDrawerItems from "./UserDrawerItems";
+import UserMenu from "./UserMenu";
 
 export default function MyAppBar() {
   const user = useRecoilValue(userState);
@@ -33,14 +30,6 @@ export default function MyAppBar() {
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {
     setSidebar(!sidebar);
-  };
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   // For Small Screen
@@ -101,48 +90,7 @@ export default function MyAppBar() {
 
             <Grid item md={3} textAlign="right">
               {user ? (
-                <>
-                  <Button
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                    sx={{
-                      mx: 2,
-                      textTransform: "none",
-                    }}
-                  >
-                    Hello {user.firstname} ▾
-                  </Button>
-                  <Menu
-                    sx={{ mt: 4 }}
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem sx={{ px: 4 }} onClick={handleClose}>
-                      Orders
-                    </MenuItem>
-                    <MenuItem sx={{ px: 4 }} onClick={handleClose}>
-                      Profile
-                    </MenuItem>
-                    <Divider sx={{ m: 0, p: 0 }} />
-                    <MenuItem sx={{ px: 4 }} onClick={handleClose}>
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                </>
+                <UserMenu user={user} />
               ) : (
                 <>
                   <AuthButton to="/auth/register">Signup</AuthButton>

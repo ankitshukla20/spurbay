@@ -1,11 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { SigninBody } from "../schemas/authSchema";
 import { apiClient } from "../services/api-client";
-import { AxiosError } from "axios";
-
-interface CustomErrorResponse {
-  error: string; // Assuming error message is always a string
-}
+import { HttpError } from "../services/http-error";
 
 interface Response {
   message: string;
@@ -14,9 +10,13 @@ interface Response {
 const useSignin = (onSignin: () => void) => {
   return useMutation({
     mutationFn: (signinBody: SigninBody) =>
-      apiClient.post<Response>("/auth/signin", signinBody),
+      apiClient
+        .post<Response>("/auth/signin", signinBody)
+        .then((res) => res.data),
+
     onSuccess: () => onSignin(),
-    onError: (error: AxiosError<CustomErrorResponse>) => {
+
+    onError: (error: HttpError) => {
       console.log(error.response?.data.error);
     },
   });
