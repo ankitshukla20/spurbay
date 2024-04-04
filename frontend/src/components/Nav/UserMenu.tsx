@@ -45,6 +45,7 @@ export default function UserMenu({ user }: Props) {
       </Tooltip>
 
       <Menu
+        elevation={2}
         sx={{ mt: 4.5 }}
         id="menu-appbar"
         anchorEl={anchorEl}
@@ -68,7 +69,7 @@ export default function UserMenu({ user }: Props) {
           Profile
         </MenuItem>
 
-        <Divider sx={{ m: 0, p: 0 }} />
+        <Divider />
 
         <MenuItem sx={{ px: 4 }} onClick={handleLogout}>
           Logout

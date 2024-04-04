@@ -1,13 +1,13 @@
 import { Box, Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import Dashboard from "../components/Dashboard";
+import AdminDashboard from "../components/AdminDashboard";
 
 const drawerWidth = 240;
 
 export default function AdminLayout() {
   return (
     <Box display={"flex"}>
-      <Dashboard />
+      <AdminDashboard />
       <Box
         component="main"
         sx={{

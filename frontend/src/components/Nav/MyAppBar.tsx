@@ -16,6 +16,7 @@ import { userState } from "../../store";
 import AuthButton from "./AuthButton";
 import CompanyName from "./CompanyName";
 import MyDrawer from "./MyDrawer";
+import MySwipableDrawer from "./MySwipableDrawer";
 import NavButton from "./NavButton";
 import NotUserDrawerItems from "./NotUserDrawerItems";
 import UserDrawerItems from "./UserDrawerItems";
@@ -32,6 +33,11 @@ export default function MyAppBar() {
     setSidebar(!sidebar);
   };
 
+  const [swipebar, setSwipebar] = useState(false);
+  const toggleSwipebar = () => {
+    setSwipebar(!swipebar);
+  };
+
   // For Small Screen
   if (isSmallScreen) {
     return (
@@ -43,11 +49,23 @@ export default function MyAppBar() {
                 <MenuIcon />
               </IconButton>
 
+              <MySwipableDrawer
+                open={swipebar}
+                onOpen={() => setSwipebar(true)}
+                onClose={() => setSwipebar(false)}
+              >
+                {user ? (
+                  <UserDrawerItems user={user} onClick={toggleSwipebar} />
+                ) : (
+                  <NotUserDrawerItems onCLick={toggleSwipebar} />
+                )}
+              </MySwipableDrawer>
+
               <MyDrawer open={sidebar} handleDrawer={toggleSidebar}>
                 {user ? (
-                  <UserDrawerItems user={user} toggleMenu={toggleSidebar} />
+                  <UserDrawerItems user={user} onClick={toggleSidebar} />
                 ) : (
-                  <NotUserDrawerItems toggleMenu={toggleSidebar} />
+                  <NotUserDrawerItems onCLick={toggleSidebar} />
                 )}
               </MyDrawer>
             </Grid>
@@ -74,7 +92,15 @@ export default function MyAppBar() {
   // For Big Screen
   return (
     <>
-      <AppBar position="static" elevation={1} color="transparent">
+      <AppBar
+        position="sticky"
+        elevation={0}
+        color="transparent"
+        sx={{
+          backdropFilter: "blur(10px)",
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+        }}
+      >
         <Toolbar>
           <Grid container>
             <Grid item md={3}>

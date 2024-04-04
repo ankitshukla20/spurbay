@@ -13,14 +13,14 @@ import useUserLogout from "../../hooks/useUserLogout";
 
 interface Props {
   user: User;
-  toggleMenu: () => void;
+  onClick: () => void;
 }
 
-export default function UserDrawerItems({ user, toggleMenu }: Props) {
+export default function UserDrawerItems({ user, onClick }: Props) {
   const logout = useUserLogout();
   const handleLogout = () => {
     logout.mutate();
-    toggleMenu();
+    onClick();
   };
 
   return (
@@ -33,28 +33,28 @@ export default function UserDrawerItems({ user, toggleMenu }: Props) {
       >
         Hello {user?.firstname}
       </Typography>
-      <Divider sx={{ mt: 2, mb: 1, mx: 1 }} />
+      <Divider sx={{ mt: 2, mb: 1, mx: 3 }} />
 
       <List>
-        <SidebarNavButton to="/" onClick={toggleMenu}>
+        <SidebarNavButton to="/" onClick={onClick}>
           Home
         </SidebarNavButton>
 
-        <SidebarNavButton to="/shop" onClick={toggleMenu}>
+        <SidebarNavButton to="/shop" onClick={onClick}>
           Shop
         </SidebarNavButton>
 
-        <Divider sx={{ my: 1, mx: 4 }} />
+        <Divider sx={{ my: 1, mx: 6 }} />
 
-        <SidebarNavButton to="/orders" onClick={toggleMenu}>
+        <SidebarNavButton to="/orders" onClick={onClick}>
           Orders
         </SidebarNavButton>
 
-        <SidebarNavButton to="/profile" onClick={toggleMenu}>
+        <SidebarNavButton to="/profile" onClick={onClick}>
           Profile
         </SidebarNavButton>
 
-        <Divider sx={{ my: 1, mx: 4 }} />
+        <Divider sx={{ my: 1, mx: 6 }} />
 
         <ListItem disablePadding>
           <ListItemButton

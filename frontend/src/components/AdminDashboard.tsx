@@ -93,7 +93,8 @@ export default function Dashboard() {
               textAlign: "center",
               border: 1,
               borderRadius: 2,
-              m: 3,
+              mt: 3,
+              mx: 4,
             }}
             component={Link}
             to="/"
