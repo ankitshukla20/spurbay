@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useSignup from "../../hooks/useSignup";
 import { SignupBody, signupSchema } from "../../schemas/authSchema";
-import MySnackbar from "../MySnackbar";
+import MySnackbar from "../../components/MySnackbar";
 
 export default function Signup() {
   const {

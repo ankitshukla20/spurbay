@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useSignin from "../../hooks/useSignin";
 import { SigninBody, signinSchema } from "../../schemas/authSchema";
-import MySnackbar from "../MySnackbar";
+import MySnackbar from "../../components/MySnackbar";
 
 export default function Signin() {
   const {
@@ -25,7 +25,7 @@ export default function Signin() {
 
   const signin = useSignin(onSignin);
 
-  const submitHandler = async (data: SigninBody) => {
+  const submitHandler = (data: SigninBody) => {
     signin.mutate(data);
   };
 

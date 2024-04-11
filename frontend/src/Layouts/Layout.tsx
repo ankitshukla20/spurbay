@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import MySnackbar from "../components/MySnackbar";
-import MyAppBar from "../components/Nav/MyAppBar";
+import MyAppBar from "../components/MyAppBar";
 import useGetUser from "../hooks/useGetUser";
 import useUserLogout from "../hooks/useUserLogout";
 import { userState } from "../store";

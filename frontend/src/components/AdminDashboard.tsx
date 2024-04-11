@@ -45,7 +45,7 @@ export default function Dashboard() {
         </SidebarNavButton>
 
         <SidebarNavButton
-          to="/admin/ap"
+          to="/admin/new-product"
           Icon={AddCircleOutlineRoundedIcon}
           onClick={handleListItemClick}
         >

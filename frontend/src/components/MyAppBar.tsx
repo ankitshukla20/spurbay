@@ -5,17 +5,17 @@ import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { HttpError } from "../../services/http-error";
-import { userState } from "../../store";
-import AuthButton from "./AuthButton";
-import CompanyName from "../CompanyName";
-import MyDrawer from "./MyDrawer";
-import MySwipableDrawer from "./MySwipableDrawer";
-import NavButton from "./NavButton";
-import NotUserDrawerItems from "./NotUserDrawerItems";
-import UserDrawerItems from "./UserDrawerItems";
-import UserMenu from "./UserMenu";
-import { LogoutResponse } from "../../hooks/useUserLogout";
+import { HttpError } from "../services/http-error";
+import { userState } from "../store";
+import AuthButton from "./Nav/AuthButton";
+import CompanyName from "./CompanyName";
+import MyDrawer from "./Nav/MyDrawer";
+import MySwipableDrawer from "./Nav/MySwipableDrawer";
+import NavButton from "./Nav/NavButton";
+import NotUserDrawerItems from "./Nav/NotUserDrawerItems";
+import UserDrawerItems from "./Nav/UserDrawerItems";
+import UserMenu from "./Nav/UserMenu";
+import { LogoutResponse } from "../hooks/useUserLogout";
 
 interface Props {
   logoutFn: UseMutateFunction<LogoutResponse, HttpError, void, unknown>;

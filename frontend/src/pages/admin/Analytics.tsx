@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 
-export default function Admin() {
+export default function Analytics() {
   return (
     <>
       <Typography variant="h1" gutterBottom>
-        Admin page
+        Analytics page
       </Typography>
     </>
   );

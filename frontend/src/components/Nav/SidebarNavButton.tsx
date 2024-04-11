@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface Props {
   to: string;
@@ -23,6 +23,8 @@ export default function SidebarNavButton({
   onClick,
   Icon,
 }: Props) {
+  const location = useLocation();
+
   return (
     <ListItem disablePadding>
       <ListItemButton

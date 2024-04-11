@@ -4,10 +4,11 @@ import Shop from "./pages/Shop";
 import Layout from "./Layouts/Layout";
 import Error from "./pages/Error";
 import AdminLayout from "./Layouts/AdminLayout";
-import Admin from "./pages/Admin";
-import Signin from "./components/auth/Signin";
+import Analytics from "./pages/admin/Analytics";
+import Signin from "./pages/auth/Signin";
 import AuthLayout from "./Layouts/AuthLayout";
-import Signup from "./components/auth/Signup";
+import Signup from "./pages/auth/Signup";
+import NewProduct from "./pages/admin/NewProduct";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,10 @@ const router = createBrowserRouter([
     path: "/admin/",
     element: <AdminLayout />,
     errorElement: <Error />,
-    children: [{ index: true, element: <Admin /> }],
+    children: [
+      { index: true, element: <Analytics /> },
+      { path: "new-product", element: <NewProduct /> },
+    ],
   },
 ]);
 

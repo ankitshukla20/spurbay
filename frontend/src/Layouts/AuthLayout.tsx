@@ -2,7 +2,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Avatar, Box, Paper, useMediaQuery, useTheme } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { Outlet } from "react-router-dom";
-import Copyright from "../components/auth/Copyright";
+import Copyright from "../components/Copyright";
 
 export default function AuthLayout() {
   const theme = useTheme();
