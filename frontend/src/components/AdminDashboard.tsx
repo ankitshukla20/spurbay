@@ -15,17 +15,33 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { LogoutResponse } from "../hooks/useUserLogout";
+import { HttpError } from "../services/http-error";
+import { adminState } from "../store";
+import SideAuthButton from "./Nav/SideAuthButton";
 import SidebarNavButton from "./Nav/SidebarNavButton";
 
-const drawerWidth = 240;
+interface Props {
+  drawerWidth: number;
+  logoutFn: UseMutateFunction<LogoutResponse, HttpError, void, unknown>;
+}
 
-export default function Dashboard() {
+export default function Dashboard({ drawerWidth, logoutFn }: Props) {
+  const admin = useRecoilValue(adminState);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleListItemClick = () => {
     setMobileOpen(false); // Close the drawer when a list item is clicked
+  };
+
+  const handleLogout = () => {
+    logoutFn();
+    navigate("/admin");
   };
 
   const drawer = (
@@ -86,22 +102,27 @@ export default function Dashboard() {
 
         <Divider sx={{ my: 1, mx: 4 }} />
 
-        <ListItem disablePadding>
-          <ListItemButton
-            sx={{
-              color: "inherit",
-              textAlign: "center",
-              border: 1,
-              borderRadius: 2,
-              mt: 3,
-              mx: 4,
-            }}
-            component={Link}
-            to="/"
-          >
-            <ListItemText primary="Logout" />
-          </ListItemButton>
-        </ListItem>
+        {admin ? (
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                color: "inherit",
+                textAlign: "center",
+                border: 1,
+                borderRadius: 2,
+                mt: 3,
+                mx: 4,
+              }}
+              onClick={handleLogout}
+            >
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </ListItem>
+        ) : (
+          <SideAuthButton to="/auth/admin" onClick={handleListItemClick}>
+            Signin
+          </SideAuthButton>
+        )}
       </List>
     </Box>
   );

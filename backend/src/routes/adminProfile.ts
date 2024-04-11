@@ -19,10 +19,10 @@ router.get("/", async (req, res, next) => {
 
     const admin = await prisma.admin.findUnique({
       where: { id: adminId },
-      select: { firstname: true, lastname: true, email: true },
+      select: { id: true, firstname: true, lastname: true, email: true },
     });
 
-    res.json({ admin });
+    res.json({ ...admin });
   } catch (err) {
     next(err);
   }

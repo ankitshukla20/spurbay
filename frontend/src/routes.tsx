@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
+import AdminLayout from "./Layouts/AdminLayout";
+import AuthLayout from "./Layouts/AuthLayout";
 import Layout from "./Layouts/Layout";
 import Error from "./pages/Error";
-import AdminLayout from "./Layouts/AdminLayout";
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
 import Analytics from "./pages/admin/Analytics";
-import Signin from "./pages/auth/Signin";
-import AuthLayout from "./Layouts/AuthLayout";
-import Signup from "./pages/auth/Signup";
 import NewProduct from "./pages/admin/NewProduct";
+import AdminSignin from "./pages/auth/AdminSignin";
+import Signin from "./pages/auth/Signin";
+import Signup from "./pages/auth/Signup";
 
 const router = createBrowserRouter([
   {
@@ -16,14 +17,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <Error />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "shop",
-        element: <Shop />,
-      },
+      { index: true, element: <Home /> },
+      { path: "shop", element: <Shop /> },
     ],
   },
   {
@@ -33,6 +28,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Signin /> },
       { path: "register", element: <Signup /> },
+      { path: "admin", element: <AdminSignin /> },
     ],
   },
   {
