@@ -7,6 +7,7 @@ import useAdminLogout from "../hooks/useAdminLogout";
 import useGetAdmin from "../hooks/useGetAdmin";
 import { adminState } from "../store";
 import AdminProtected from "../pages/admin/AdminProtected";
+import { grey } from "@mui/material/colors";
 
 const drawerWidth = 240;
 
@@ -30,12 +31,12 @@ export default function AdminLayout() {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          backgroundColor: grey[50],
+          minHeight: "100vh",
         }}
       >
-        <Container maxWidth="lg">
-          {admin ? <Outlet /> : <AdminProtected />}
-        </Container>
+        {admin ? <Outlet /> : <AdminProtected />}
       </Box>
     </Box>
   );

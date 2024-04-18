@@ -26,7 +26,7 @@ export default function Error() {
         gutterBottom
         sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}
       >
-        To access admin functionalities, login with an admin's credentials.
+        To access administrative features, please log in with an admin account.
       </Typography>
       <Button
         variant="text"
