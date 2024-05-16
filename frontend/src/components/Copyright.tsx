@@ -11,7 +11,7 @@ export default function Copyright() {
     >
       {"Copyright © "}
       <Link color="inherit" to="/">
-        Spurbay Fashions
+        BioXChange
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

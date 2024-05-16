@@ -24,7 +24,7 @@ export default function Layout() {
     <>
       <MyAppBar logoutFn={logout.mutate} />
 
-      <Container maxWidth="lg" sx={{ p: 3 }}>
+      <Container maxWidth="lg" sx={{ mt: 3, p: 3 }}>
         <Outlet />
       </Container>
 

@@ -73,12 +73,12 @@ export default function NewProduct() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Button sx={{ textTransform: "none" }} component="label">
               Select Images
               <input type="file" hidden />
             </Button>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <TextField

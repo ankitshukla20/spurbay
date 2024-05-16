@@ -48,7 +48,7 @@ export default function MyAppBar({ logoutFn }: Props) {
         }}
       >
         <Toolbar>
-          <Grid container>
+          <Grid container alignItems="center">
             <Grid item md={3}>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <CompanyName />

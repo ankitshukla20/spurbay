@@ -6,30 +6,6 @@ export default function Home() {
       <Typography variant="h1" gutterBottom>
         Home page
       </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
-      <Typography variant="h1" gutterBottom>
-        Home page
-      </Typography>
     </>
   );
 }
