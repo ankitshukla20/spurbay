@@ -1,4 +1,5 @@
 import { TextField, Typography } from "@mui/material";
+import ProductList from "../components/ProductList";
 
 export default function Shop() {
   return (
@@ -6,6 +7,7 @@ export default function Shop() {
       <Typography variant="h5" sx={{ fontWeight: "bold", mb: 5 }} gutterBottom>
         Shop
       </Typography>
+
       <TextField
         placeholder="Search"
         autoComplete=""
@@ -15,6 +17,8 @@ export default function Shop() {
           },
         }}
       />
+
+      <ProductList />
     </>
   );
 }

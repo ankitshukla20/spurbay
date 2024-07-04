@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { AddProductForm } from "../../schemas/productSchem";
+import { AddProductForm } from "../../schemas/productSchema";
 
 export default function NewProduct() {
   const {
